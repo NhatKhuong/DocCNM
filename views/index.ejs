@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
+    <style>
+        .noti{
+            color: red;
+            font-style: italic;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <div class="container">
+        <form action="/" method="POST" onsubmit="return checkValidate()" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="email">Ten:</label>
+                <input name="ten" type="text" class="form-control" placeholder="Nhap ten" id="inputten">
+                <label class="noti" id="ten"></label>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Nhom:</label>
+                <input name="nhom" type="text" class="form-control" placeholder="Nhap nhom" id="inputnhom">
+                <label class="noti" id="nhom"></label>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Ten tac gia:</label>
+                <input name="tacgia" type="text" class="form-control" placeholder="Nhap ten tac gia" id="inputtacgia">
+                <label class="noti" id="tacgia"></label>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Chi so ISBN:</label>
+                <input name="chiso" type="text" class="form-control" placeholder="Nhap chi so" id="inputchiso">
+                <label class="noti" id="chiso">Ten:</label>
+            </div>
+            <div class="form-group">
+                <label for="pwd">So Trang:</label>
+                <input name="sotrang" type="text" class="form-control" placeholder="Nhap so trang" id="inputsotrang">
+                <label class="noti" id="sotrang"></label>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Nam xuat ban:</label>
+                <input name="namxuatban" type="text" class="form-control" placeholder="Nhap nam xuat ban" id="inputnam">
+                <label class="noti" id="nam"></label>
+            </div>
+            <button type="submit" class="btn btn-primary">ADD</button>
+        </form>
+        <h2>Table Head Colors</h2>
+        <form id="delete" method="POST" action="/delete" enctype="multipart/form-data">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>STT</th>
+                        <th>Ten bai bao</th>
+                        <th>Ten tac gia</th>
+                        <th>Chi so ISBI</th>
+                        <th>So trang</th>
+                        <th>Nam xuat ban</th>
+                        <th>Chon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i=0; i < listItem.length;i++){%>
+                        <tr>
+                            <td>
+                                <%=i+1%>
+                            </td>
+                            <td>
+                                <%=listItem[i].ten%>
+                            </td>
+                            <td>
+                                <%=listItem[i].tacgia%>
+                            </td>
+                            <td>
+                                <%=listItem[i].chiso%>
+                            </td>
+                            <td>
+                                <%=listItem[i].sotrang%>
+                            </td>
+                            <td>
+                                <%=listItem[i].namxuatban%>
+                            </td>
+                            <td><input type="checkbox" name="<%=listItem[i].id%>" /></td>
+                        </tr>
+                        <%} %>
+                </tbody>
+            </table>
+            <button style="float:right" type="submit" onclick="return confirmAction()" class="btn btn-primary">DELETE</button>
+        </form>
+
+    </div>
+    <script>
+        const checkNum=(num)=>{
+            console.log(num);
+            if(isNaN(num) || num < 0){
+                return false;
+                console.log("funtion false");
+
+            } else{
+                console.log("funtion true");
+                return true;
+            } 
+        }
+        const checkRegex=(value,regex)=>{
+            return regex.test(value);
+        }
+        const checkValidate=()=>{
+            check = false;
+            if(document.getElementById("inputten").value ==""){
+                document.getElementById("ten").innerText = "Ten khong duoc rong"
+                return false;
+            } else{
+                document.getElementById("ten").innerText = ""
+                check = true;
+            }
+            if(document.getElementById("inputnhom").value ==""){
+                document.getElementById("nhom").innerText = "Nhom khong duoc rong"
+                return false;
+            } else{
+                document.getElementById("nhom").innerText = ""
+                check = true;
+            }
+            if(document.getElementById("inputtacgia").value ==""){
+                document.getElementById("tacgia").innerText = "Tac gia khong duoc rong"
+                return false;
+            } else{
+                document.getElementById("tacgia").innerText = ""
+                check = true;
+            }
+            if(!checkRegex(document.getElementById("inputchiso").value,/[a-zA-Z]{3}-[0-9]{3}/)){
+                document.getElementById("chiso").innerText = "Chi so khong duoc rong"
+                 return false;
+            } else {
+                document.getElementById("chiso").innerText = ""
+                check = true;
+            }
+            if(!(checkNum(document.getElementById("inputsotrang").value) && document.getElementById("inputsotrang").value != "")){
+                document.getElementById("sotrang").innerText = "So trang khong duoc rong va la so nguyen duong"
+                console.log("false");
+                return false;
+            } else{
+                document.getElementById("sotrang").innerText = ""
+                check = true;
+                console.log("true");
+            }
+            
+            if(document.getElementById("inputnam").value ==""){
+                document.getElementById("nam").innerText = "Nam xuat ban khong duoc rong"
+                return false;
+            } else{
+                document.getElementById("nam").innerText = ""
+                check = true;
+            }
+           
+            return check;
+        }
+        function confirmAction() {
+            return confirm("Xin chào bạn ! Bạn có muốn xóa không?")
+        }
+    </script>
+</body>
+
+</html>
