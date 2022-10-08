@@ -18,7 +18,7 @@ const config = new AWS.Config({
 
 AWS.config = config;
 const docClient = new AWS.DynamoDB.DocumentClient();
-const tableName = "OnTap22";
+const tableName = "dbSinhVien";
 
 app.get("/", (req, res) => {
     const params = {
@@ -34,18 +34,56 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get("/showEdit/:id", (req, res) => {
+    const params = {
+        TableName: tableName,
+        Key: {
+            "id": req.params.id
+        }
+    };
+
+    docClient.get(params, (err, data) => {
+        if (err) {
+            res.send("Inrenal server error");
+        } else {
+            return res.render("indexUpdate", { item: data.Item });
+        }
+    });
+});
+
 app.post("/", upload.fields([]), (req, res) => {
-    const { ten, nhom, tacgia, chiso, sotrang, namxuatban } = req.body;
+    const { ma, ten, ngaysinh, lop } = req.body;
     const params = {
         TableName: tableName,
         Item: {
             id: new Date().getTime() + "",
+            ma: ma,
             ten: ten,
-            nhom: nhom,
-            tacgia: tacgia,
-            chiso: chiso,
-            sotrang: sotrang,
-            namxuatban: namxuatban,
+            ngaysinh: ngaysinh,
+            lop: lop,
+        },
+    };
+
+    docClient.put(params, (err, data) => {
+        if (err) {
+            console.log(err);
+            res.send("Inrenal server error");
+        } else {
+            return res.redirect("/");
+        }
+    });
+});
+
+app.post("/update", upload.fields([]), (req, res) => {
+    const { id, ma, ten, ngaysinh, lop } = req.body;
+    const params = {
+        TableName: tableName,
+        Item: {
+            id: id,
+            ma: ma,
+            ten: ten,
+            ngaysinh: ngaysinh,
+            lop: lop,
         },
     };
 

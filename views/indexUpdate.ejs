@@ -21,26 +21,32 @@
 
 <body>
     <div class="container">
-        <h3 style="text-align: center;">QUAN LY SINH VIEN</h3>
-        <form action="/" method="POST" onsubmit="return checkValidate()" enctype="multipart/form-data">
+        <form action="/" method="GET" onsubmit="return checkValidate()" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-success">BACK TO HOME</button>
+        </form>
+        <h3 style="text-align: center;">CAP NHAT SINH VIEN</h3>
+        <form action="/update" method="POST" onsubmit="return checkValidate()" enctype="multipart/form-data">
+            <div class="form-group">
+                <input hidden value="<%=item.id%>" name="id" type="text" class="form-control" placeholder="Nhap ma sinh vien" id="">
+            </div>
             <div class="form-group">
                 <label for="email">Ma sinh vien:</label>
-                <input name="ma" type="text" class="form-control" placeholder="Nhap ma sinh vien" id="inputma">
+                <input value="<%=item.ma%>" name="ma" type="text" class="form-control" placeholder="Nhap ma sinh vien" id="inputma">
                 <label class="noti" id="ma"></label>
             </div>
             <div class="form-group">
                 <label for="pwd">Ho ten:</label>
-                <input name="ten" type="text" class="form-control" placeholder="Nhap ten sinh vien" id="inputten">
+                <input value="<%=item.ten%>" name="ten" type="text" class="form-control" placeholder="Nhap ten sinh vien" id="inputten">
                 <label class="noti" id="ten"></label>
             </div>
             <div class="form-group">
                 <label for="pwd">Ngay sinh</label>
-                <input name="ngaysinh" type="date" class="form-control" placeholder="Nhap ngay sinh" id="inputngaysinh">
+                <input value="<%=item.ngaysinh%>" name="ngaysinh" type="date" class="form-control" placeholder="Nhap ngay sinh" id="inputngaysinh">
                 <label class="noti" id="ngaysinh"></label>
             </div>
             <div class="form-group">
                 <label for="pwd">Lop:</label>
-                <input name="lop" type="text" class="form-control" placeholder="Nhap lop" id="inputlop">
+                <input value="<%=item.lop%>" name="lop" type="text" class="form-control" placeholder="Nhap lop" id="inputlop">
                 <label class="noti" id="lop"></label>
             </div>
             <!-- <div class="form-group">
@@ -53,49 +59,7 @@
                 <input name="namxuatban" type="text" class="form-control" placeholder="Nhap nam xuat ban" id="inputnam">
                 <label class="noti" id="nam"></label>
             </div> -->
-            <button type="submit" class="btn btn-primary">ADD</button>
-        </form>
-        <h2>Danh sach sinh vien</h2>
-        <form id="delete" method="POST" action="/delete" enctype="multipart/form-data">
-            <table class="table">
-                <thead class="">
-                    <tr>
-                        <th>STT</th>
-                        <th>Ma sinh vien</th>
-                        <th>Ho ten</th>
-                        <th>Ngay sinh</th>
-                        <th>Lop</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for(let i=0; i < listItem.length;i++){%>
-                        <tr>
-                            <td>
-                                <%=i+1%>
-                            </td>
-                            <td>
-                                <%=listItem[i].ma%>
-                            </td>
-                            <td>
-                                <%=listItem[i].ten%>
-                            </td>
-                            <td>
-                                <%=listItem[i].ngaysinh%>
-                            </td>
-                            <td>
-                                <%=listItem[i].lop%>
-                            </td>
-                            <td>
-                                <td><a href="/showEdit/<%=listItem[i].id%>">Edit</a></td>
-                            </td>
-                            <td><input type="checkbox" name="<%=listItem[i].id%>" /></td>
-                        </tr>
-                        <%} %>
-                </tbody>
-            </table>
-            <button style="float:right" type="submit" onclick="return confirmAction()" class="btn btn-danger">DELETE</button>
+            <button type="submit" class="btn btn-primary">UPDATE</button>
         </form>
 
     </div>
